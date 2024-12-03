@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/app/profile/posts/[id]/page.tsx
 import { CamelCasePlugin, Kysely } from "kysely";
 import { DB } from "../../../../lib/db-types";
 import { dialect } from "../../../../lib/db";
@@ -14,6 +15,13 @@ export default async function PostDetail(props: Props) {
     dialect: dialect,
     plugins: [new CamelCasePlugin()],
   });
+=======
+import { createDB } from "../../../lib/db";
+import Link from "next/link";
+
+export default async function UserPosts() {
+  const db = createDB();
+>>>>>>> 6436d157880b91c367a5681aa84670c7e63b35b5:src/app/profile/posts/page.tsx
 
   const id = parseInt(props.params.id);
 
