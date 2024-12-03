@@ -28,8 +28,8 @@ export interface Users {
   displayName: string | null;
   email: string;
   id: Generated<number>;
-  username: string;
   password: string | null;
+  username: string;
 }
 
 export interface DB {
