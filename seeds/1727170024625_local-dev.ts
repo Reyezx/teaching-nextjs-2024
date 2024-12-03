@@ -18,6 +18,7 @@ export async function seed(db: Kysely<DB>): Promise<void> {
       username: faker.internet.userName(),
       email: faker.internet.email(),
       displayName: faker.internet.displayName(),
+      password: faker.internet.password(),
     })
     .returningAll()
     .executeTakeFirstOrThrow();

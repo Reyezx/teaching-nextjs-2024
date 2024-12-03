@@ -1,6 +1,6 @@
-import { CamelCasePlugin, Kysely } from "kysely";
-import { DB } from "../../../lib/db-types";
-import { dialect } from "../../../lib/db";
+import Link from "next/link";
+import { createDB } from "../../../lib/db";
+import { NewCommentForm } from "./NewCommentForm";
 
 type Props = { params: { id: string } };
 
@@ -13,10 +13,7 @@ export default async function PostDetail(props: Props) {
     return <div>Error: Invalid ID</div>;
   }
 
-  const db = new Kysely<DB>({
-    dialect: dialect,
-    plugins: [new CamelCasePlugin()],
-  });
+  const db = createDB();
 
   const postWithUser = await db
     .selectFrom("posts")
@@ -45,15 +42,23 @@ export default async function PostDetail(props: Props) {
           <p>{postWithUser.content}</p>
         </div>
         <p>{new Date(postWithUser.createdAt).toLocaleString()}</p>
-        <p>{postWithUser.displayName ?? postWithUser.username}</p>
+        <Link href={`/user/${postWithUser.userId}`}>
+          {postWithUser.displayName ?? postWithUser.username}
+        </Link>
+        <Link href={`/post/${props.params.id}/edit`}>Edit</Link>
         <br />
+        {commentsWithUsers.length === 0 ? <div>- No Comments - </div> : null}
         <ul className="list-disc">
           {commentsWithUsers.map((c) => (
             <li key={c.id}>
-              {c.content} [{c.displayName ?? c.username}]
+              {c.content}{" "}
+              <Link href={`/user/${c.userId}`}>
+                [{c.displayName ?? c.username}]
+              </Link>
             </li>
           ))}
         </ul>
+        <NewCommentForm postId={postWithUser.id} />
       </div>
     </div>
   );

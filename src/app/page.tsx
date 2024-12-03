@@ -22,11 +22,8 @@ export default async function Home() {
           <Link href={`/post/${p.id}`}>
             <div className="card-body">
               <p>{p.content}</p>
+              <p>{p.userId}</p>
               <p>{new Date(p.createdAt).toString()}</p>
-              <p>
-                {p.userId}
-                {p.userId === 1 ? " *" : ""}
-              </p>
             </div>
           </Link>
         </div>

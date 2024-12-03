@@ -25,4 +25,8 @@ export async function up(db: Kysely<unknown>): Promise<void> {
 		foreign key (user_id) references users (id),
 		foreign key (post_id) references posts (id)
 	) STRICT`.execute(db);
+
+	await sql`ALTER TABLE users (
+	ADD password text not null
+	) STRICT`.execute(db)
 }

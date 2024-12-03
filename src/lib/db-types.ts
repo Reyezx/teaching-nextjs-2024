@@ -29,6 +29,7 @@ export interface Users {
   email: string;
   id: Generated<number>;
   username: string;
+  password: string | null;
 }
 
 export interface DB {
