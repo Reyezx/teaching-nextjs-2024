@@ -1,11 +1,11 @@
 import { assertAuth } from "../../../../lib/auth";
 import { createDB } from "../../../../lib/db";
+import { CreateMessage } from "./CreateMessage";
+import { DeleteMessage } from "./DeleteMessage";
 
 type Props = { params: { id: string } };
 
 export default async function MessagesUserPage(props: Props) {
-  console.log("Messages with user id:", props.params.id);
-
   const id = parseInt(props.params.id);
 
   if (isNaN(id)) {
@@ -25,11 +25,11 @@ export default async function MessagesUserPage(props: Props) {
         eb.and([eb("toUserId", "=", userId), eb("fromUserId", "=", id)]),
       ])
     )
-    .orderBy("createdAt", "desc")
+    .orderBy("createdAt", "asc")
     .execute();
 
   return (
-    <div className="card bg-base-100 drop-shadow-md">
+    <div className="card bg-base-100 w-96 drop-shadow-md">
       <div className="card-body">
         {messages.map((m) => (
           <div
@@ -38,9 +38,32 @@ export default async function MessagesUserPage(props: Props) {
               m.fromUserId === userId ? "chat-end" : "chat-start"
             }`}
           >
-            <div className="chat-bubble chat-bubble-accent">{m.message}</div>
+            <div className="chat-header">
+              skibidi
+              <time className="text-xs opacity-50">
+                {" "}
+                {new Date(m.createdAt).toLocaleString().slice(0, -3)}
+              </time>
+            </div>
+            <div
+              className={`chat-bubble ${
+                m.fromUserId === userId
+                  ? "chat-bubble-primary"
+                  : "chat-bubble-accent"
+              }`}
+            >
+              {m.message}
+            </div>
+            <div className="chat-footer">
+              {m.fromUserId === userId ? (
+                <DeleteMessage id={m.id} toId={m.toUserId}></DeleteMessage>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
         ))}
+        <CreateMessage id={id}></CreateMessage>
       </div>
     </div>
   );

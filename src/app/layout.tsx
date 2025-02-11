@@ -36,7 +36,7 @@ export default function RootLayout({
         <div className="navbar bg-base-100">
           <div className="flex-1">
             <Link href="/" className="btn btn-ghost text-xl">
-              Social Network
+              Skibidi
             </Link>
           </div>
           <div className="flex-none">

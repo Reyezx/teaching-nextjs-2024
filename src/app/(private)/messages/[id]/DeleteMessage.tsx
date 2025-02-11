@@ -1,0 +1,40 @@
+"use client";
+
+import { useForm } from "react-hook-form";
+import { deleteMessage } from "./delete-message-action";
+
+type Props = {
+  id: number;
+  toId: number;
+};
+
+interface FormValues {
+  id: number;
+  toId: number;
+}
+
+export function DeleteMessage(props: Props) {
+  const { register, handleSubmit } = useForm<FormValues>();
+  return (
+    <form
+      onSubmit={handleSubmit((data) => {
+        deleteMessage(props.id, props.toId)
+      })}
+    >
+      <button className="btn btn-square">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-6 w-6"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M6 18L18 6M6 6l12 12" />
+  </svg>
+</button>
+    </form>
+  );
+}
