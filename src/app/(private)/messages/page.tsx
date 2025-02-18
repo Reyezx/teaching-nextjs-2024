@@ -64,22 +64,24 @@ export default async function Messages() {
     .orderBy((eb) => eb.fn.max("maxCreatedAt"), "desc")
     .execute();
 
-  return (
-    <div className="card bg-base-100 w-96 drop-shadow-md">
-      <div className="card-body">
-        Message
-        <div>
-          <ul>
+    return (
+      <div className="card bg-base-100 drop-shadow-md">
+        <div className="card-body">
+          Message
+          <div>
             {messageUsers.map((r) => (
-              <li key={r.id}>
-                <Link href={`/messages/${r.id}`}>
-                  {r.id} - {r.displayName ?? r.username}
-                </Link>
-              </li>
+              <Link key={r.id} href={`/messages/${r.id}`}>
+                <div className="w-96 flex flex-row items-center m-2 p-2 space-x-4 hover:bg-gray-200">
+                  <div>{r.id}</div>
+                  <div className="flex flex-col">
+                    <div>{r.displayName ?? r.username}</div>
+                    <div>{new Date(r.maxCreatedAt).toLocaleString()}</div>
+                  </div>
+                </div>
+              </Link>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
 }
