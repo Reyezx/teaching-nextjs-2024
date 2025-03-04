@@ -43,6 +43,9 @@ export default function RootLayout({
             <ul className="menu menu-horizontal px-1">
               {userId == null ? (
                 <>
+                <li>
+                    <Link href="/marketplace">Marketplace</Link>
+                  </li>
                   <li>
                     <Link href="/login">Login</Link>
                   </li>
