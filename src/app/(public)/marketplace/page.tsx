@@ -20,6 +20,8 @@ export default async function MarketplacePage({ searchParams }: Props) {
     searchParams["searchText"] != null ? searchParams["searchText"] : null;
   const category =
     searchParams["category"] != null ? searchParams["category"] : null;
+  const condition =
+    searchParams["condition"] != null ? searchParams["condition"] : null;
 
   const db = createDB();
 
@@ -52,6 +54,9 @@ export default async function MarketplacePage({ searchParams }: Props) {
   if (category != null) {
     query = query.where("category", "=", category);
   }
+  if (condition != null) {
+    query = query.where("condition", "=", condition);
+  }
 
   const marketplace = await query.execute();
 
@@ -62,9 +67,13 @@ export default async function MarketplacePage({ searchParams }: Props) {
         initialPriceTo={searchParams["priceTo"] ?? null}
         initialSearchText={searchParams["searchText"] ?? null}
         initialCategory={searchParams["category"] ?? null}
+        initialCondition={searchParams["condition"] ?? null}
       />
       {marketplace.map((p) => (
-        <div key={p.id} className="card bg-base-100 w-96 drop-shadow-md">
+        <div
+          key={p.id}
+          className="card bg-base-100 w-96 drop-shadow-md mb-4 duration-300 hover:-translate-y-4 hover:drop-shadow-2xl"
+        >
           <div className="card-body">
             <p>Name: {p.name}</p>
             {p.photoUrl != null ? (
@@ -76,6 +85,7 @@ export default async function MarketplacePage({ searchParams }: Props) {
             ) : null}
             <p>Description: {p.description}</p>
             <p>Category: {p.category}</p>
+            <p>Condition: {p.condition}</p>
             <p>Price: {p.price}</p>
             <p>Created At: {new Date(p.createdAt).toString()}</p>
             <Link href={`/user/${p.userId}`}>{p.userId}</Link>

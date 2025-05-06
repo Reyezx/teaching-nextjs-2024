@@ -7,6 +7,7 @@ export async function up(db: Kysely<unknown>): Promise<void> {
 			name text not null,
 			description text not null,
 			category text not null,
+			condition text,
 			price integer not null,
 			created_at integer not null,
 			foreign key (user_id) references users (id)

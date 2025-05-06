@@ -16,7 +16,10 @@ export default async function Home() {
   return (
     <div>
       {posts.map((p) => (
-        <div key={p.id} className="card bg-base-100 w-96 drop-shadow-md">
+        <div
+          key={p.id}
+          className="card bg-base-100 w-96 drop-shadow-md mb-4 duration-300 hover:-translate-y-4 hover:drop-shadow-2xl"
+        >
           <div className="card-body">
             <Link href={`/post/${p.id}`}>
               <p>{p.content}</p>

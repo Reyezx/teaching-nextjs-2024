@@ -1,13 +1,19 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { createMarketplace } from "./create-marketplace-action";
+import {
+  MARKETPLACE_CONDITIONS,
+  MARKETPLACE_CATEGORIES,
+} from "../../../lib/db-constants";
 
 type FormValues = {
   name: string;
   description: string;
   price: string;
-  // category: string;
+  category: string;
+  condition: string;
   photoUrls: string[];
 };
 
@@ -20,6 +26,8 @@ export function NewMarketplaceForm() {
 
   const photoUrls = watch("photoUrls");
 
+  const [category, setCategory] = useState<string>("Select Category" ?? "");
+
   return (
     <form
       className="grid grid-cols-1"
@@ -28,7 +36,8 @@ export function NewMarketplaceForm() {
           data.name,
           data.description,
           parseFloat(data.price),
-          "car",
+          data.category,
+          data.condition,
           data.photoUrls
         );
       })}
@@ -49,6 +58,18 @@ export function NewMarketplaceForm() {
         placeholder="Price"
         {...register("price")}
       />
+      <select className="select select-bordered" {...register("category")}>
+        <option value="car">Car</option>
+        <option value="furniture">Furniture</option>
+        <option value="electronics">Electronics</option>
+      </select>
+
+      <select className="select select-bordered" {...register("condition")}>
+        <option value="new">Brand New</option>
+        <option value="likenew">Used - Like New</option>
+        <option value="good">Used - Good</option>
+        <option value="fair">Used - Fair</option>
+      </select>
       <span>Photo urls</span>
       {photoUrls.map((photoUrl, index) => (
         <div key={index}>

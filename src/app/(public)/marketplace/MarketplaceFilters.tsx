@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { MARKETPLACE_CATEGORIES } from "../../../lib/db-constants";
+import { MARKETPLACE_CATEGORIES, MARKETPLACE_CONDITIONS } from "../../../lib/db-constants";
 
 type Props = {
   initialPriceFrom: string | null;
   initialPriceTo: string | null;
   initialSearchText: string | null;
   initialCategory: string | null;
+  initialCondition: string | null;
 };
 
 export function MarketplaceFilters({
@@ -16,11 +17,13 @@ export function MarketplaceFilters({
   initialPriceTo,
   initialSearchText,
   initialCategory,
+  initialCondition,
 }: Props) {
   const [priceFrom, setPriceFrom] = useState<string>(initialPriceFrom ?? "");
   const [priceTo, setPriceTo] = useState<string>(initialPriceTo ?? "");
   const [searchText, setSearchText] = useState<string>(initialSearchText ?? "");
   const [category, setCategory] = useState<string>(initialCategory ?? "");
+  const [condition, setCondition] = useState<string>(initialCondition ?? "");
 
   const queryParams: { [key: string]: string } = {};
   if (priceFrom != "") {
@@ -34,6 +37,9 @@ export function MarketplaceFilters({
   }
   if (category != "") {
     queryParams["category"] = category;
+  }
+  if (condition != "") {
+    queryParams["condition"] = condition;
   }
 
   return (
@@ -55,6 +61,49 @@ export function MarketplaceFilters({
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
+      </label>
+      <label className="my-4 flex items-center gap-2">
+        Condition:
+        <select
+          className="select select-bordered"
+          value={condition}
+          onChange={(e) => {
+            console.log("Condition select:", e.target.value);
+            setCondition(e.target.value);
+          }}
+        >
+          <option value="" disabled>
+            Select condition
+          </option>
+          {Object.entries(MARKETPLACE_CONDITIONS).map(
+            ([conditionValue, { displayValue }]) => (
+              <option key={conditionValue} value={conditionValue}>
+                {displayValue}
+              </option>
+            )
+          )}
+        </select>
+        <button
+          className="btn btn-circle btn-xs btn-outline"
+          onClick={() => {
+            setCondition("");
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
       </label>
       <label className="my-4 flex items-center gap-2">
         Category:

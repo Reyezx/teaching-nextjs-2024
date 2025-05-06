@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import type { Kysely } from "kysely";
-import { MARKETPLACE_CATEGORIES } from "../src/lib/db-constants";
+import { MARKETPLACE_CATEGORIES, MARKETPLACE_CONDITIONS } from "../src/lib/db-constants";
 import { DB } from "../src/lib/db-types";
 
 export async function seed(db: Kysely<DB>): Promise<void> {
@@ -142,6 +142,9 @@ export async function seed(db: Kysely<DB>): Promise<void> {
           description: faker.commerce.productDescription(),
           category: faker.helpers.arrayElement(
             Object.keys(MARKETPLACE_CATEGORIES)
+          ),
+          condition: faker.helpers.arrayElement(
+            Object.keys(MARKETPLACE_CONDITIONS)
           ),
           price: faker.number.int({ min: 1, max: 1000 }),
           createdAt: faker.date.recent({ days: 10 }).getTime(),
